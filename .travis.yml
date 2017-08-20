@@ -1,0 +1,62 @@
+
+sudo: required
+dist: trusty
+
+language: cpp
+
+env:
+  global:
+    - OVERRIDE_BOOST_MODULES="--with-filesystem --with-regex --with-system --with-thread"
+  matrix:
+  - VERSION=1.7.14
+
+before_install:
+  - sudo apt-get -qq update
+
+install:
+  - git clone https://github.com/nerdvegas/rez.git
+  - cd rez
+  - python ./install.py -v /tmp/rez
+  - cd ..
+  - export PATH=/tmp/rez/bin/rez:$PATH
+  - mkdir -p /home/travis/packages
+  - rez-bind platform
+  - rez-bind arch
+  - rez-bind os
+  - git clone https://github.com/piratecrew/rez-python.git
+  - cd rez-python
+  - rez-build -i
+  - cd ..
+  - git clone https://github.com/piratecrew/rez-boost.git
+  - cd rez-boost
+  - rez-build -i
+  - cd ..
+  - git clone https://github.com/piratecrew/rez-zlib.git
+  - cd rez-zlib
+  - rez-build -i
+  - cd ..
+  - git clone https://github.com/piratecrew/rez-png.git
+  - cd rez-png
+  - rez-build -i
+  - cd ..
+  - git clone https://github.com/piratecrew/rez-jpeg.git
+  - cd rez-jpeg
+  - rez-build -i
+  - cd ..
+  - git clone https://github.com/piratecrew/rez-tiff.git
+  - cd rez-tiff
+  - rez-build -i
+  - cd ..
+  - git clone https://github.com/piratecrew/rez-ilmbase.git
+  - cd rez-ilmbase
+  - rez-build -i
+  - cd ..
+  - git clone https://github.com/piratecrew/rez-openexr.git
+  - cd rez-openexr
+  - rez-build -i
+  - cd ..
+
+
+script:
+  - sed -i s/version.*=.*/version=\"${VERSION}\"/ package.py
+  - rez-build -i

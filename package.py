@@ -1,6 +1,6 @@
 name = "oiio"
 
-version = "1.6.8"
+version = "1.7.14"
 
 description = \
     """
@@ -11,20 +11,25 @@ variants = [
     ["platform-linux"]
 ]
 
+#build_requires = [
+#    "cmake"
+#]
+
 requires = [
-    "ocio",
-    "ilmbase",
-    "openexr",
-    "qt",
-    "boost",
-    "ffmpeg",
-    "python"
+    "ocio-1.0.9",
+    "ilmbase-2",
+    "openexr-2",
+    "jpeg-1",
+    "tiff-4",
+    "boost-1",
+    "python-2.7",
+    "zlib-1",
+    "png-1"
 ]
 
-uuid = "repository.oiio"
-
 def commands():
-    env.CMAKE_MODULE_PATH.append("{root}/cmake")
     env.PATH.prepend("{root}/bin")
     env.LD_LIBRARY_PATH.append("{root}/lib")
     env.PYTHONPATH.prepend("{root}/lib/python/site-packages")
+    if building:
+        env.CMAKE_MODULE_PATH.append("{root}/cmake")
