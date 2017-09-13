@@ -1,6 +1,6 @@
 name = "oiio"
 
-version = "1.7.14"
+version = "1.7.17"
 
 description = \
     """
